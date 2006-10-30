@@ -1,0 +1,20 @@
+--- lrzip-0.13/Makefile.in	2006-10-30 22:43:05.050236189 +0200
++++ lrzip-0.13/Makefile.in	2006-10-30 22:50:19.890018160 +0200
+@@ -7,7 +7,7 @@
+ INSTALL_BIN=$(exec_prefix)/bin
+ INSTALL_MAN=$(prefix)/man
+ 
+-LIBS=@LIBS@ lzma/7zip/Compress/LZMA_Lib/liblzma.a
++LIBS=@LIBS@ -llzma
+ CC=@CC@
+ CXX=@CXX@
+ CFLAGS=@CFLAGS@
+@@ -29,7 +29,7 @@
+ .c.o:
+ 	$(CC) -I. -I$(srcdir) $(CFLAGS) -c $< -o $@
+ 
+-all: liblzma lrzip
++all: lrzip
+ 
+ man: rzip.1
+ 
