@@ -1,5 +1,5 @@
---- lrzip-0.15/Makefile.in~	2006-10-31 01:54:32.000000000 +0200
-+++ lrzip-0.15/Makefile.in	2006-10-31 20:02:29.555641024 +0200
+--- lrzip-0.15/Makefile.in	2006-10-31 20:02:29.555641024 +0200
++++ lrzip-0.15/Makefile.in	2006-10-31 20:31:41.585085450 +0200
 @@ -29,7 +29,7 @@
  .c.o:
  	$(CC) -I. -I$(srcdir) $(CFLAGS) -c $< -o $@
@@ -9,9 +9,12 @@
  
  man: rzip.1
  
-@@ -42,7 +42,7 @@
+@@ -40,9 +40,9 @@
+ 	${INSTALLCMD} -m 644 $(srcdir)/lrzip.1 $(DESTDIR)${INSTALL_MAN}/man1/
+ 
  liblzma: 
- 	cd lzma && make && cd ../
+-	cd lzma && make && cd ../
++	$(MAKE) -C lzma
  
 -lrzip: $(OBJS)
 +lrzip: $(OBJS) liblzma
