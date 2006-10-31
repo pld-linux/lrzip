@@ -1,13 +1,12 @@
 Summary:	Long Range ZIP or Lzma RZIP
 Name:		lrzip
-Version:	0.15
-Release:	0.2
+Version:	0.16
+Release:	0.1
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	22a2bebed69ec3dfe17008f18f87fe1c
+# Source0-md5:	d4371cd6b32398e95fb7ed704addf361
 Patch0:		%{name}-lzolib.patch
-Patch1:		%{name}-parallel-make.patch
 #Patch2:	%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	bzip2-devel
@@ -27,7 +26,6 @@ always faster than bzip2.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 #%patch2 -p1
 
 # local copy has some changes. TODO: patch our lzma
