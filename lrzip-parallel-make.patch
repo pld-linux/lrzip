@@ -1,0 +1,20 @@
+--- /home/glen/rpm/pld/BUILD/lrzip-0.15/Makefile.in~	2006-10-31 01:54:32.000000000 +0200
++++ /home/glen/rpm/pld/BUILD/lrzip-0.15/Makefile.in	2006-10-31 20:02:29.555641024 +0200
+@@ -29,7 +29,7 @@
+ .c.o:
+ 	$(CC) -I. -I$(srcdir) $(CFLAGS) -c $< -o $@
+ 
+-all: liblzma lrzip
++all: lrzip
+ 
+ man: rzip.1
+ 
+@@ -42,7 +42,7 @@
+ liblzma: 
+ 	cd lzma && make && cd ../
+ 
+-lrzip: $(OBJS)
++lrzip: $(OBJS) liblzma
+ 	$(CXX) $(CFLAGS) -o lrzip $(OBJS) $(LIBS)
+ 
+ lrzip.1: lrzip.yo
