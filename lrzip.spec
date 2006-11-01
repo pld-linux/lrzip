@@ -23,7 +23,7 @@ always faster than bzip2.
 
 %prep
 %setup -q
-rm -rf lzma
+%{!?debug:rm -rf lzma}
 %patch0 -p1
 
 %build
