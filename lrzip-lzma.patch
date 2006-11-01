@@ -46,3 +46,14 @@
  
  #define CTYPE_NONE 3
  #define CTYPE_BZIP2 4
+--- lrzip-0.16/lrzip.1.orig	2006-10-30 06:28:29.000000000 +0100
++++ lrzip-0.16/lrzip.1	2006-11-01 14:19:18.329885000 +0100
+@@ -154,8 +154,6 @@
+ .PP
+ .SH "BUGS"
+ .PP
+-lzma compression does NOT work on 64bit at all\&.
+-
+ Unlike most Unix compression programs, lrzip cannot compress or
+ decompress to or from standard input or standard output\&. This is due
+ to the nature of the algorithm that rzip uses and cannot easily be
