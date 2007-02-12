@@ -1,5 +1,5 @@
 Summary:	Long Range ZIP or Lzma RZIP
-Summary(pl.UTF-8):   Long Range ZIP lub Lzma RZIP
+Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
 Version:	0.18
 Release:	1
