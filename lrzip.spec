@@ -1,5 +1,5 @@
 Summary:	Long Range ZIP or Lzma RZIP
-Summary(pl):	Long Range ZIP lub Lzma RZIP
+Summary(pl.UTF-8):   Long Range ZIP lub Lzma RZIP
 Name:		lrzip
 Version:	0.18
 Release:	1
@@ -22,13 +22,13 @@ advantage this will provide, especially once the files are larger than
 than bzip2) or speed (much faster than bzip2). Decompression is much
 always faster than bzip2.
 
-%description -l pl
-LRZIP to program kompresuj±cy zoptymalizowany dla du¿ych plików. Im
-wiêkszy jest plik i im wiêcej jest dostêpnej pamiêci, tym lepsz±
-kompresjê mo¿na uzyskaæ, zw³aszcza dla plików wiêkszych ni¿ 100MB.
-Mo¿na wybraæ kompresjê bardziej korzystn± pod wzglêdem rozmiaru (du¿o
-mniejszy ni¿ bzip2) lub szybko¶ci (du¿o szybszy ni¿ bzip2).
-Dekompresja jest zawsze du¿o szybsza ni¿ bzip2.
+%description -l pl.UTF-8
+LRZIP to program kompresujÄ…cy zoptymalizowany dla duÅ¼ych plikÃ³w. Im
+wiÄ™kszy jest plik i im wiÄ™cej jest dostÄ™pnej pamiÄ™ci, tym lepszÄ…
+kompresjÄ™ moÅ¼na uzyskaÄ‡, zwÅ‚aszcza dla plikÃ³w wiÄ™kszych niÅ¼ 100MB.
+MoÅ¼na wybraÄ‡ kompresjÄ™ bardziej korzystnÄ… pod wzglÄ™dem rozmiaru (duÅ¼o
+mniejszy niÅ¼ bzip2) lub szybkoÅ›ci (duÅ¼o szybszy niÅ¼ bzip2).
+Dekompresja jest zawsze duÅ¼o szybsza niÅ¼ bzip2.
 
 %prep
 %setup -q
