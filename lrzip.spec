@@ -1,3 +1,4 @@
+%bcond_without	system_lzma # build with internal lzma
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
@@ -10,7 +11,7 @@ Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	bzip2-devel
-BuildRequires:	lzma-devel >= 4.43-5
+%{?with_system_lzma:BuildRequires:	lzma-devel >= 4.43-5}
 BuildRequires:	lzo-devel >= 2.02-1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -32,8 +33,10 @@ Dekompresja jest zawsze dużo szybsza niż bzip2.
 
 %prep
 %setup -q
-%{!?debug:rm -rf lzma}
+%if %{with system_lzma}
+rm -rf lzma
 %patch0 -p1
+%endif
 
 %build
 %{__aclocal}
