@@ -1,16 +1,17 @@
+%bcond_with	system_lzma # build with system lzma
 Summary:	Long Range ZIP or Lzma RZIP
-Summary(pl):	Long Range ZIP lub Lzma RZIP
+Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
-Version:	0.16
+Version:	0.18
 Release:	1
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	d4371cd6b32398e95fb7ed704addf361
+# Source0-md5:	285c995f6d861c4125f6164ab0ab2368
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	bzip2-devel
-BuildRequires:	lzma-devel >= 4.43-5
+%{?with_system_lzma:BuildRequires:	lzma-devel >= 4.43-5}
 BuildRequires:	lzo-devel >= 2.02-1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -22,18 +23,20 @@ advantage this will provide, especially once the files are larger than
 than bzip2) or speed (much faster than bzip2). Decompression is much
 always faster than bzip2.
 
-%description -l pl
-LRZIP to program kompresuj±cy zoptymalizowany dla du¿ych plików. Im
-wiêkszy jest plik i im wiêcej jest dostêpnej pamiêci, tym lepsz±
-kompresjê mo¿na uzyskaæ, zw³aszcza dla plików wiêkszych ni¿ 100MB.
-Mo¿na wybraæ kompresjê bardziej korzystn± pod wzglêdem rozmiaru (du¿o
-mniejszy ni¿ bzip2) lub szybko¶ci (du¿o szybszy ni¿ bzip2).
-Dekompresja jest zawsze du¿o szybsza ni¿ bzip2.
+%description -l pl.UTF-8
+LRZIP to program kompresujÄ…cy zoptymalizowany dla duÅ¼ych plikÃ³w. Im
+wiÄ™kszy jest plik i im wiÄ™cej jest dostÄ™pnej pamiÄ™ci, tym lepszÄ…
+kompresjÄ™ moÅ¼na uzyskaÄ‡, zwÅ‚aszcza dla plikÃ³w wiÄ™kszych niÅ¼ 100MB.
+MoÅ¼na wybraÄ‡ kompresjÄ™ bardziej korzystnÄ… pod wzglÄ™dem rozmiaru (duÅ¼o
+mniejszy niÅ¼ bzip2) lub szybkoÅ›ci (duÅ¼o szybszy niÅ¼ bzip2).
+Dekompresja jest zawsze duÅ¼o szybsza niÅ¼ bzip2.
 
 %prep
 %setup -q
-%{!?debug:rm -rf lzma}
+%if %{with system_lzma}
+rm -rf lzma
 %patch0 -p1
+%endif
 
 %build
 %{__aclocal}
