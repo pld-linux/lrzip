@@ -1,4 +1,4 @@
-%bcond_without	system_lzma # build with internal lzma
+%bcond_with	system_lzma # build with system lzma
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
