@@ -2,12 +2,12 @@
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
-Version:	0.18
-Release:	2
+Version:	0.19
+Release:	1
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	285c995f6d861c4125f6164ab0ab2368
+# Source0-md5:	a724f4bc8c89d698873b46a0de60bcd1
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	bzip2-devel
