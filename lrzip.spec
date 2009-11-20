@@ -5,12 +5,12 @@
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
-Version:	0.23
-Release:	2
+Version:	0.30
+Release:	1
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	a15ca1768adb50c839baabc13b0fb60a
+# Source0-md5:	7f4e47e5194a782f1b883ede3c457403
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	autoconf
@@ -19,6 +19,7 @@ BuildRequires:	bzip2-devel
 BuildRequires:	libstdc++-devel
 %{?with_system_lzma:BuildRequires:	lzma-devel >= 4.43-5}
 BuildRequires:	lzo-devel >= 2.02-1
+BuildRequires:	nasm
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -48,7 +49,8 @@ rm -rf lzma
 %build
 %{__aclocal}
 %{__autoconf}
-%configure
+%configure \
+	--enable-asm
 %{__make}
 
 %install
@@ -57,12 +59,18 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}-0.24
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README
+%doc README*
+%doc AUTHORS BUGS ChangeLog doc/Current-Benchmarks.txt TODO WHATS-NEW
+%doc lzma/7zC.txt lzma/7zFormat.txt lzma/Methods.txt lzma/README lzma/README-Alloc lzma/history.txt lzma/lzma.txt
+%doc doc/magic.header.txt doc/lrzip.conf.example
 %attr(755,root,root) %{_bindir}/lrzip
 %attr(755,root,root) %{_bindir}/lrunzip
 %{_mandir}/man1/lrzip.1*
+%{_mandir}/man5/lrzip.conf.5*
