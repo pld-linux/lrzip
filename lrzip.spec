@@ -13,9 +13,13 @@ Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
 # Source0-md5:	a15ca1768adb50c839baabc13b0fb60a
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	bzip2-devel
+BuildRequires:	libstdc++-devel
 %{?with_system_lzma:BuildRequires:	lzma-devel >= 4.43-5}
 BuildRequires:	lzo-devel >= 2.02-1
+BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
