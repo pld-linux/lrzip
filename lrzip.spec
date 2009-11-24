@@ -5,12 +5,12 @@
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
-Version:	0.30
-Release:	2
+Version:	0.31
+Release:	1
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	7f4e47e5194a782f1b883ede3c457403
+# Source0-md5:	3cf78c98197efe171790df67df997b3d
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	autoconf
@@ -58,8 +58,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}-0.24
 
 %clean
 rm -rf $RPM_BUILD_ROOT
