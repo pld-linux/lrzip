@@ -20,6 +20,7 @@ BuildRequires:	libstdc++-devel
 %{?with_system_lzma:BuildRequires:	lzma-devel >= 4.43-5}
 BuildRequires:	lzo-devel >= 2.02-1
 BuildRequires:	nasm
+BuildRequires:	perl-tools-pod
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
