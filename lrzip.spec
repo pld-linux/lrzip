@@ -5,12 +5,12 @@
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
-Version:	0.604
+Version:	0.605
 Release:	1
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	9a405bf7fa04479abb24c4e3074ea843
+# Source0-md5:	c08eccd8d9482d0dc07773460da1638a
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	autoconf
@@ -70,10 +70,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc lzma/7zC.txt lzma/7zFormat.txt lzma/Methods.txt lzma/README lzma/README-Alloc lzma/history.txt lzma/lzma.txt
 %doc doc/magic.header.txt doc/lrzip.conf.example doc/README.lzo_compresses.test.txt doc/README.benchmarks
 %attr(755,root,root) %{_bindir}/lrunzip
+%attr(755,root,root) %{_bindir}/lrzcat
 %attr(755,root,root) %{_bindir}/lrzip
 %attr(755,root,root) %{_bindir}/lrztar
 %attr(755,root,root) %{_bindir}/lrzuntar
 %{_mandir}/man1/lrunzip.1*
+%{_mandir}/man1/lrzcat.1*
 %{_mandir}/man1/lrzip.1*
 %{_mandir}/man1/lrztar.1*
 %{_mandir}/man1/lrzuntar.1*
