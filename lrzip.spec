@@ -3,6 +3,7 @@
 #
 # Conditional build:
 %bcond_with	system_lzma	# use system lzma instead of internal
+%bcond_without	static_libs	# don't build static libraries
 %bcond_without	asm	# Enable native Assembly code (ia32 only)
 %bcond_without	jit	# JIT in bundled libzpaq
 %bcond_without	tests		# build without tests
@@ -56,19 +57,31 @@ mniejszy niż bzip2) lub szybkości (dużo szybszy niż bzip2).
 Dekompresja jest zawsze dużo szybsza niż bzip2.
 
 %package libs
-Summary:	Libraries for decoding LZMA compression
+Summary:	Long Range ZIP library
 License:	LGPL v2+
+Provides:	bundled(zpaq)
 
 %description    libs
-Libraries for decoding LZMA compression.
+Dynamic library implementing Long Range ZIP or Lzma RZIP algorithm and
+archive format.
 
 %package devel
-Summary:	Devel libraries & headers for liblzmadec
+Summary:	Development files for Long Range ZIP library
 License:	LGPL v2+
 Requires:	%{name}-libs = %{version}-%{release}
 
-%description    devel
-Devel libraries & headers for liblzmadec.
+%description devel
+Files needed to develop application using Long Range ZIP library.
+
+%package static
+Summary:	Static Long Range ZIP library
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Provides:	bundled(zpaq)
+
+%description static
+Static library implementing Long Range ZIP or Lzma RZIP algorithm and
+archive format.
 
 %prep
 %setup -q
@@ -83,8 +96,8 @@ rm -rf lzma
 %{!?with_jit:CPPFLAGS="%{rpmcppflags} -DNOJIT"}
 %configure \
 	--disable-silent-rules \
-	--disable-static \
 	--disable-static-bin \
+	%{!?with_static_libs:--disable-static} \
 	--enable-shared \
 	%{__enable_disable asm}
 %{__make}
@@ -138,3 +151,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/Lrzip.h
 %{_libdir}/liblrzip.so
 %{_pkgconfigdir}/lrzip.pc
+
+%if %{with static_libs}
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/liblrzip.a
+%endif
