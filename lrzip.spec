@@ -4,6 +4,11 @@
 # Conditional build:
 %bcond_with	system_lzma	# use system lzma instead of internal
 %bcond_without	asm	# Enable native Assembly code (ia32 only)
+%bcond_without	jit	# JIT in bundled libzpaq
+
+%ifnarch %{ix86} %{x8664}
+%undefine	with_jit
+%endif
 
 %ifnarch %{ix86}
 %undefine	with_asm
@@ -73,6 +78,7 @@ rm -rf lzma
 %build
 %{__aclocal} -I m4
 %{__autoconf}
+%{!?with_jit:CPPFLAGS="%{rpmcppflags} -DNOJIT"}
 %configure \
 	--disable-silent-rules \
 	--disable-static \
