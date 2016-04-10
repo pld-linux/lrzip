@@ -37,7 +37,8 @@ BuildRequires:	lzo-devel >= 2.02-1
 BuildRequires:	perl-tools-pod
 BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
-Requires:	%{name}-libs = %{version}-%{release}
+# does not link with shared lib, see TODO
+#Requires:	%{name}-libs = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
