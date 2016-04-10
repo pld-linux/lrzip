@@ -34,6 +34,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	lzo-devel >= 2.02-1
 %{?with_asm:BuildRequires:	nasm}
 BuildRequires:	perl-tools-pod
+BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
 Requires:	%{name}-libs = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
