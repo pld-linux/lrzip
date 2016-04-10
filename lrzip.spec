@@ -5,6 +5,7 @@
 %bcond_with	system_lzma	# use system lzma instead of internal
 %bcond_without	asm	# Enable native Assembly code (ia32 only)
 %bcond_without	jit	# JIT in bundled libzpaq
+%bcond_without	tests		# build without tests
 
 %ifnarch %{ix86} %{x8664}
 %undefine	with_jit
@@ -86,6 +87,14 @@ rm -rf lzma
 	--enable-shared \
 	%{__enable_disable asm}
 %{__make}
+
+%if %{with tests}
+./lrzip -z COPYING
+./lrzip --info COPYING.lrz
+./lrzip -d -o COPYING.new COPYING.lrz
+cmp COPYING COPYING.new
+rm COPYING.new
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
