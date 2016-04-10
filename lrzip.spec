@@ -1,16 +1,16 @@
 #
 # Conditional build:
 %bcond_with	system_lzma	# use system lzma instead of internal
-#
+
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
-Version:	0.614
+Version:	0.621
 Release:	1
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	9c60d03d94beaac68ac2c096c0e6ed1b
+# Source0-md5:	53a12cc4d19aa030d0ab7f0a21db2cfe
 Patch0:		%{name}-lzma.patch
 URL:		http://ck.kolivas.org/apps/lrzip/
 BuildRequires:	autoconf
@@ -51,12 +51,12 @@ rm -rf lzma
 %{__aclocal} -I m4
 %{__autoconf}
 %configure \
+	--disable-silent-rules \
 	--enable-asm
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -65,8 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README*
-%doc AUTHORS BUGS ChangeLog README README-NOT-BACKWARD-COMPATIBLE TODO WHATS-NEW
+%doc AUTHORS BUGS ChangeLog README* README-NOT-BACKWARD-COMPATIBLE TODO WHATS-NEW
 %doc lzma/7zC.txt lzma/7zFormat.txt lzma/Methods.txt lzma/README lzma/README-Alloc lzma/history.txt lzma/lzma.txt
 %doc doc/magic.header.txt doc/lrzip.conf.example doc/README.lzo_compresses.test.txt doc/README.benchmarks
 %attr(755,root,root) %{_bindir}/lrunzip
