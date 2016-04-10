@@ -3,6 +3,11 @@
 #
 # Conditional build:
 %bcond_with	system_lzma	# use system lzma instead of internal
+%bcond_without	asm	# Enable native Assembly code (ia32 only)
+
+%ifnarch %{ix86}
+%undefine	with_asm
+%endif
 
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
@@ -21,7 +26,7 @@ BuildRequires:	bzip2-devel
 BuildRequires:	libstdc++-devel
 %{?with_system_lzma:BuildRequires:	lzma-devel >= 4.43-5}
 BuildRequires:	lzo-devel >= 2.02-1
-BuildRequires:	nasm
+%{?with_asm:BuildRequires:	nasm}
 BuildRequires:	perl-tools-pod
 BuildRequires:	zlib-devel
 Requires:	%{name}-libs = %{version}-%{release}
@@ -73,7 +78,7 @@ rm -rf lzma
 	--disable-static \
 	--disable-static-bin \
 	--enable-shared \
-	--enable-asm
+	%{__enable_disable asm}
 %{__make}
 
 %install
