@@ -1,3 +1,5 @@
+# TODO
+# - lrzip should link to shared lrzip library
 #
 # Conditional build:
 %bcond_with	system_lzma	# use system lzma instead of internal
@@ -22,6 +24,7 @@ BuildRequires:	lzo-devel >= 2.02-1
 BuildRequires:	nasm
 BuildRequires:	perl-tools-pod
 BuildRequires:	zlib-devel
+Requires:	%{name}-libs = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -40,6 +43,21 @@ Można wybrać kompresję bardziej korzystną pod względem rozmiaru (dużo
 mniejszy niż bzip2) lub szybkości (dużo szybszy niż bzip2).
 Dekompresja jest zawsze dużo szybsza niż bzip2.
 
+%package libs
+Summary:	Libraries for decoding LZMA compression
+License:	LGPL v2+
+
+%description    libs
+Libraries for decoding LZMA compression.
+
+%package devel
+Summary:	Devel libraries & headers for liblzmadec
+License:	LGPL v2+
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description    devel
+Devel libraries & headers for liblzmadec.
+
 %prep
 %setup -q
 %if %{with system_lzma}
@@ -52,6 +70,9 @@ rm -rf lzma
 %{__autoconf}
 %configure \
 	--disable-silent-rules \
+	--disable-static \
+	--disable-static-bin \
+	--enable-shared \
 	--enable-asm
 %{__make}
 
@@ -60,14 +81,18 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/liblrzip.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog README* README-NOT-BACKWARD-COMPATIBLE TODO WHATS-NEW
-%doc lzma/7zC.txt lzma/7zFormat.txt lzma/Methods.txt lzma/README lzma/README-Alloc lzma/history.txt lzma/lzma.txt
-%doc doc/magic.header.txt doc/lrzip.conf.example doc/README.lzo_compresses.test.txt doc/README.benchmarks
 %attr(755,root,root) %{_bindir}/lrunzip
 %attr(755,root,root) %{_bindir}/lrzcat
 %attr(755,root,root) %{_bindir}/lrzip
@@ -79,3 +104,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/lrztar.1*
 %{_mandir}/man1/lrzuntar.1*
 %{_mandir}/man5/lrzip.conf.5*
+
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/liblrzip.so.*.*.*
+%ghost %{_libdir}/liblrzip.so.0
+
+%files devel
+%defattr(644,root,root,755)
+%doc lzma/7zC.txt lzma/7zFormat.txt lzma/Methods.txt lzma/README lzma/README-Alloc lzma/history.txt lzma/lzma.txt
+%doc doc/magic.header.txt doc/lrzip.conf.example doc/README.lzo_compresses.test.txt doc/README.benchmarks
+%{_includedir}/Lrzip.h
+%{_libdir}/liblrzip.so
+%{_pkgconfigdir}/lrzip.pc
