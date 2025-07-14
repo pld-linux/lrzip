@@ -88,7 +88,7 @@ archive format.
 %setup -q
 %if %{with system_lzma}
 rm -rf lzma
-%patch0 -p1
+%patch -P0 -p1
 %endif
 
 %build
