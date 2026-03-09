@@ -5,17 +5,21 @@
 %ifnarch %{ix86} %{x8664}
 %undefine	with_asm
 %endif
+%ifarch x32
+%undefine	with_asm
+%endif
 
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
 Version:	0.660
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/Archiving
 Source0:	https://github.com/ckolivas/lrzip/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	b4163b9bb9ed03d5cb858cdbe465f793
 URL:		https://github.com/ckolivas/lrzip
+Patch0:		%{name}-format.patch
 BuildRequires:	autoconf >= 2.71
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
@@ -47,6 +51,7 @@ Dekompresja jest zawsze dużo szybsza niż bzip2.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__libtoolize}

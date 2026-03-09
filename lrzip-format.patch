@@ -1,0 +1,32 @@
+--- lrzip-0.660/stream.c.orig	2026-03-09 21:13:24.656355559 +0100
++++ lrzip-0.660/stream.c	2026-03-09 21:13:08.053022223 +0100
+@@ -446,7 +446,7 @@
+ 	c_buf = ucthread->s_buf;
+ 	ucthread->s_buf = malloc(round_up_page(control, dlen));
+ 	if (unlikely(!ucthread->s_buf)) {
+-		print_err("Failed to allocate %ld bytes for decompression\n", dlen);
++		print_err("Failed to allocate %"PRId64" bytes for decompression\n", dlen);
+ 		ret = -1;
+ 		goto out;
+ 	}
+@@ -462,7 +462,7 @@
+ 		goto out;
+ 	}
+ 	if (unlikely(dlen != ucthread->u_len)) {
+-		print_err("Inconsistent length after decompression. Got %ld bytes, expected %"PRId64"\n", dlen, ucthread->u_len);
++		print_err("Inconsistent length after decompression. Got %"PRId64" bytes, expected %"PRId64"\n", dlen, ucthread->u_len);
+ 		ret = -1;
+ 	} else
+ 		dealloc(c_buf);
+@@ -1950,9 +1950,9 @@
+ 	} while (test_len <= dlen);
+ 
+ 	if (!ret)
+-		print_maxverbose("lz4 testing FAILED for chunk %ld. %d Passes\n", s_len, workcounter);
++		print_maxverbose("lz4 testing FAILED for chunk %"PRId64". %d Passes\n", s_len, workcounter);
+ 	else {
+-		print_maxverbose("lz4 testing OK for chunk %ld. Compressed size = %5.2F%% of chunk, %d Passes\n",
++		print_maxverbose("lz4 testing OK for chunk %"PRId64". Compressed size = %5.2F%% of chunk, %d Passes\n",
+ 				s_len, 100 * ((double) best_dlen / (double) test_len), workcounter);
+ 	}
+ 
