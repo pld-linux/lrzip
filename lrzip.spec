@@ -1,44 +1,32 @@
-# TODO
-# - lrzip should link to shared lrzip library
-#
 # Conditional build:
-%bcond_with	system_lzma	# use system lzma instead of internal
-%bcond_without	static_libs	# don't build static libraries
-%bcond_without	asm	# Enable native Assembly code (ia32 only)
-%bcond_without	jit	# JIT in bundled libzpaq
-%bcond_without	tests		# build without tests
+%bcond_without	asm	# native Assembly code (x86/x86_64)
+%bcond_without	tests	# build without tests
 
 %ifnarch %{ix86} %{x8664}
-%undefine	with_jit
-%endif
-
-%ifnarch %{ix86}
 %undefine	with_asm
 %endif
 
 Summary:	Long Range ZIP or Lzma RZIP
 Summary(pl.UTF-8):	Long Range ZIP lub Lzma RZIP
 Name:		lrzip
-Version:	0.621
-Release:	2
+Version:	0.660
+Release:	1
 License:	GPL v2
 Group:		Applications/Archiving
-Source0:	http://ck.kolivas.org/apps/lrzip/%{name}-%{version}.tar.bz2
-# Source0-md5:	53a12cc4d19aa030d0ab7f0a21db2cfe
-Patch0:		%{name}-lzma.patch
-URL:		http://ck.kolivas.org/apps/lrzip/
-BuildRequires:	autoconf
+Source0:	https://github.com/ckolivas/lrzip/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	b4163b9bb9ed03d5cb858cdbe465f793
+URL:		https://github.com/ckolivas/lrzip
+BuildRequires:	autoconf >= 2.71
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	libstdc++-devel
-%{?with_system_lzma:BuildRequires:	lzma-devel >= 4.43-5}
-BuildRequires:	lzo-devel >= 2.02-1
+BuildRequires:	libtool
+BuildRequires:	lz4-devel
+BuildRequires:	lzo-devel >= 2.02
 %{?with_asm:BuildRequires:	nasm}
 BuildRequires:	perl-tools-pod
-BuildRequires:	pkgconfig
 BuildRequires:	zlib-devel
-# does not link with shared lib, see TODO
-#Requires:	%{name}-libs = %{version}-%{release}
+Provides:	bundled(zpaq)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -57,49 +45,18 @@ Można wybrać kompresję bardziej korzystną pod względem rozmiaru (dużo
 mniejszy niż bzip2) lub szybkości (dużo szybszy niż bzip2).
 Dekompresja jest zawsze dużo szybsza niż bzip2.
 
-%package libs
-Summary:	Long Range ZIP library
-License:	LGPL v2+
-Provides:	bundled(zpaq)
-
-%description    libs
-Dynamic library implementing Long Range ZIP or Lzma RZIP algorithm and
-archive format.
-
-%package devel
-Summary:	Development files for Long Range ZIP library
-License:	LGPL v2+
-Requires:	%{name}-libs = %{version}-%{release}
-
-%description devel
-Files needed to develop application using Long Range ZIP library.
-
-%package static
-Summary:	Static Long Range ZIP library
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-Provides:	bundled(zpaq)
-
-%description static
-Static library implementing Long Range ZIP or Lzma RZIP algorithm and
-archive format.
-
 %prep
 %setup -q
-%if %{with system_lzma}
-rm -rf lzma
-%patch -P0 -p1
-%endif
 
 %build
+%{__libtoolize}
 %{__aclocal} -I m4
 %{__autoconf}
-%{!?with_jit:CPPFLAGS="%{rpmcppflags} -DNOJIT"}
+%{__autoheader}
+%{__automake}
 %configure \
 	--disable-silent-rules \
 	--disable-static-bin \
-	%{!?with_static_libs:--disable-static} \
-	--enable-shared \
 	%{__enable_disable asm}
 %{__make}
 
@@ -117,44 +74,25 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/liblrzip.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	libs -p /sbin/ldconfig
-%postun	libs -p /sbin/ldconfig
-
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS ChangeLog README* README-NOT-BACKWARD-COMPATIBLE TODO WHATS-NEW
+%doc AUTHORS BUGS ChangeLog README.md README-NOT-BACKWARD-COMPATIBLE TODO WHATS-NEW
+%doc doc/magic.header.txt doc/lrzip.conf.example doc/README.lzo_compresses.test.txt doc/README.benchmarks doc/README.Assembler
+%doc lzma/7zC.txt lzma/7zFormat.txt lzma/Methods.txt lzma/README lzma/README-Alloc lzma/history.txt lzma/lzma.txt
 %attr(755,root,root) %{_bindir}/lrunzip
+%attr(755,root,root) %{_bindir}/lrz
 %attr(755,root,root) %{_bindir}/lrzcat
 %attr(755,root,root) %{_bindir}/lrzip
 %attr(755,root,root) %{_bindir}/lrztar
 %attr(755,root,root) %{_bindir}/lrzuntar
 %{_mandir}/man1/lrunzip.1*
+%{_mandir}/man1/lrz.1*
 %{_mandir}/man1/lrzcat.1*
 %{_mandir}/man1/lrzip.1*
 %{_mandir}/man1/lrztar.1*
 %{_mandir}/man1/lrzuntar.1*
 %{_mandir}/man5/lrzip.conf.5*
-
-%files libs
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/liblrzip.so.*.*.*
-%ghost %{_libdir}/liblrzip.so.0
-
-%files devel
-%defattr(644,root,root,755)
-%doc lzma/7zC.txt lzma/7zFormat.txt lzma/Methods.txt lzma/README lzma/README-Alloc lzma/history.txt lzma/lzma.txt
-%doc doc/magic.header.txt doc/lrzip.conf.example doc/README.lzo_compresses.test.txt doc/README.benchmarks
-%{_includedir}/Lrzip.h
-%{_libdir}/liblrzip.so
-%{_pkgconfigdir}/lrzip.pc
-
-%if %{with static_libs}
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/liblrzip.a
-%endif
