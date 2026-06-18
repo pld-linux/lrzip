@@ -1,3 +1,4 @@
+#
 # Conditional build:
 %bcond_without	asm	# native Assembly code (x86/x86_64)
 %bcond_without	tests	# build without tests
@@ -15,19 +16,22 @@ License:	GPL v2
 Group:		Applications/Archiving
 Source0:	https://github.com/ckolivas/lrzip/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	b4163b9bb9ed03d5cb858cdbe465f793
-URL:		https://github.com/ckolivas/lrzip
 Patch0:		%{name}-format.patch
+URL:		https://github.com/ckolivas/lrzip
 BuildRequires:	autoconf >= 2.71
-BuildRequires:	automake
+BuildRequires:	automake >= 1.6
 BuildRequires:	bzip2-devel
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2
 BuildRequires:	lz4-devel
 BuildRequires:	lzo-devel >= 2.02
 %{?with_asm:BuildRequires:	nasm}
 BuildRequires:	perl-tools-pod
 BuildRequires:	zlib-devel
 Provides:	bundled(zpaq)
+Obsoletes:	lrzip-libs < 0.660
+Obsoletes:	lrzip-devel < 0.660
+Obsoletes:	lrzip-static < 0.660
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,7 +74,7 @@ export CPPFLAGS="%{rpmcppflags} -DNOJIT"
 ./lrzip --info COPYING.lrz
 ./lrzip -d -o COPYING.new COPYING.lrz
 cmp COPYING COPYING.new
-rm COPYING.new
+%{__rm} COPYING.new
 %endif
 
 %install
